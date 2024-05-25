@@ -1,50 +1,79 @@
 package labcodeinspection;
 
+import java.util.Locale;
+
 public class Email {
 
-	private String m_firstName;
-	private String m_lastName;
-	private String department;
-	private int defaultpasswordLength = 8;
-	private String email;
+	private transient final String firstName;
+	private transient final String lastName;
+	private transient String department;
+	private transient final int passwordLength = 8;
+	private transient String email;
+	private transient String password;
 
-	public Email(String firstName, String lastName) {
-		this.m_firstName = firstName;
-		this.m_lastName = lastName;
+	/**
+	 * Constructor para inicializar el nombre y apellido
+	 * 
+	 * @param firstName Nombre del usuario
+	 * @param lastName Apellido del usuario
+	 */
+	public Email(final String firstName, final String lastName) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
+	/**
+	 * Muestra la información del usuario
+	 */
 	public void showInfo() {
-		System.out.println("\nFIRST NAME= " + m_firstName + "\nLAST NAME= " + m_lastName);
-		System.out.println("DEPARMENT= " + department + "\nEMAIL= " + email + "\nPASSWORD= " + password);
+		System.out.println("\nFIRST NAME= " + firstName + "\nLAST NAME= " + lastName);
+		System.out.println("DEPARTMENT= " + department + "\nEMAIL= " + email + "\nPASSWORD= " + password);
 	}
 
-	public void setDeparment(int depChoice) {
+	/**
+	 * Establece el departamento basado en una elección
+	 * 
+	 * @param depChoice Elección del departamento
+	 */
+	public void setDepartment(final int depChoice) {
 		switch (depChoice) {
-		case 1:
-			this.department = "sales";
-			break;
-		case 2:
-			this.department = "dev";
-			break;
-		case 3:
-			this.department = "acct";
-			break;
+			case 1:
+				this.department = "sales";
+				break;
+			case 2:
+				this.department = "dev";
+				break;
+			case 3:
+				this.department = "acct";
+				break;
+			default:
+				this.department = "";
+				break;
 		}
 	}
-
-	private String randomPassword(int length) {
-		String set = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890#$&@*";
-		char[] password = new char[length];
+	
+	/**
+	 * Genera una contraseña aleatoria
+	 * 
+	 * @param length Longitud de la contraseña
+	 * @return Contraseña generada
+	 */
+	private String randomPassword(final int length) {
+		final String set = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890#$&@*";
+		final char[] password = new char[length];
 		for (int i = 0; i < length; i++) {
-			int rand = (int) (Math.random() * set.length());
+			final int rand = (int) (Math.random() * set.length());
 			password[i] = set.charAt(rand);
 		}
 		return new String(password);
 	}
 
+	/**
+	 * Genera el correo electrónico del usuario
+	 */
 	public void generateEmail() {
-		this.password = this.randomPassword(this.defaultpasswordLength);
-		this.email = this.m_firstName.toLowerCase() + this.m_lastName.toLowerCase() + "@" + this.department
+		this.password = this.randomPassword(this.passwordLength);
+		this.email = this.firstName.toLowerCase(Locale.ROOT) + this.lastName.toLowerCase(Locale.ROOT) + "@" + this.department
 				+ ".espol.edu.ec";
 	}
 }
